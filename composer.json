@@ -29,7 +29,10 @@
         "components/bootstrap": "dev-master",
         "j7mbo/twitter-api-php": "dev-master",
         "cosenary/instagram": "dev-master",
-        "knplabs/knp-paginator-bundle": "^2.4"
+        "knplabs/knp-paginator-bundle": "^2.4",
+        "zendframework/zend-stdlib": "2.7.3",
+        "zendframework/zend-filter": "2.5.1",
+        "zendframework/zend-servicemanager": "2.6.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.3",

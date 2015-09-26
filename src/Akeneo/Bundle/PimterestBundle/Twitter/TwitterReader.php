@@ -30,7 +30,7 @@ class TwitterReader
     public function retrieve()
     {
         $url           = 'https://api.twitter.com/1.1/search/tweets.json';
-        $getfield      = sprintf('?q=#%s', $this->tag);
+        $getfield      = sprintf('?q=#%s -RT', $this->tag);
         $requestMethod = 'GET';
 
         $twitter = new TwitterAPIExchange($this->settings);
@@ -53,35 +53,33 @@ class TwitterReader
         return $formatted;
     }
 
-    protected function extractPost($data)
+    protected function extractPost(\stdClass $data)
     {
+        $tweet = new Tweet();
+        $tweetHydrator = new TweetHydrator();
+
+        $tweetHydrator->hydrate($data, $tweet);
+
         $formatted = [
-            'app_id'    => $data->id,
+            'app_id'    => $tweet->getIdStr(),
             'source'    => 'twitter',
-            'username'  => $data->user->screen_name,
+            'username'  => $tweet->getUser()->screen_name,
             'usertype'  => 'community',
             'active'    => true,
-            'content'   => $data->text,
-            'mediaurl' => null,
-            'latitude' => 0,
+            'content'   => $tweet->getText(),
+            'mediaurl'  => null,
+            'latitude'  => 0,
             'longitude' => 0,
         ];
 
-        if (isset($data->entities->media) && count((array) $data->entities->media)) {
-            $media = $data->entities->media;
-            $formatted['mediaurl'] = $media[0]->media_url;
+        $media = $tweet->getMedia();
+        if (count($media) > 0) {
+            $formatted['mediaurl'] = $media[0]->getMediaUrl();
         }
 
-        if ($data->geo && 'point' === $data->geo->type) {
-            $formatted['latitude']  = $data->geo->coordinates[0];
-            $formatted['longitude'] = $data->geo->coordinates[1];
-        } elseif ($data->coordinates) {
-            $formatted['latitude']  = isset($data->location) ? $data->location->latitude : '';
-            $formatted['longitude'] = isset($data->location) ? $data->location->longitude : '';
-        } elseif (isset($data->place->bounding_box->coordinates)) {
-            $coordinates = $data->place->bounding_box->coordinates;
-            $formatted['latitude']  = $coordinates[0][0][1];
-            $formatted['longitude'] = $coordinates[0][0][0];
+        if ($tweet->getCoordinates()) {
+            $formatted['longitude'] = $tweet->getCoordinates()->getLongitude();
+            $formatted['latitude']  = $tweet->getCoordinates()->getLatitude();
         }
 
         return $formatted;

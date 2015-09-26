@@ -30,9 +30,9 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contribution);
-            $em->flush();
+            $dm = $this->container->get('doctrine_mongodb.odm.document_manager');
+            $dm->persist($contribution);
+            $dm->flush();
 
             $this->addFlash('success', 'Success');
 
@@ -44,7 +44,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $repo = $this->container->get('pimterest.repository.contribution');
         $contribution = $repo->findOneBy(['id' => $id]);
@@ -62,7 +62,6 @@ class AdminController extends Controller
     public function indexAction(Request $request)
     {
         $repo = $this->container->get('pimterest.repository.contribution');
-        $page = $request->query->getInt('page', 1);
         $contributions = $repo->findBy([], ['id' => 'DESC']);
 
         $paginator  = $this->get('knp_paginator');
