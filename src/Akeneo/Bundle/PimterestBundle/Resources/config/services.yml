@@ -1,0 +1,23 @@
+services:
+    pimterest.api.reader.twitter:
+        class: Akeneo\Bundle\PimterestBundle\Twitter\TwitterReader
+        arguments:
+            - %twitter.tag%
+            - %twitter.oauth_access_token%
+            - %twitter.oauth_access_token_secret%
+            - %twitter.consumer_key%
+            - %twitter.consumer_secret%
+
+    pimterest.reader.instagram:
+        class: Akeneo\Bundle\PimterestBundle\Instagram\InstagramReader
+        arguments:
+            - %instagram.tag%
+            - %instagram.api_key%
+            - %instagram.api_secret%
+            - %instagram.api_callback%
+
+    pimterest.repository.contribution:
+        class: Akeneo\Bundle\PimterestBundle\Repository\ContributionRepository
+        factory_service: doctrine.odm.mongodb.document_manager
+        factory_method: getRepository
+        arguments: ['Akeneo\Bundle\PimterestBundle\Document\Contribution']

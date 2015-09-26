@@ -1,0 +1,38 @@
+Akeneo\Bundle\PimterestBundle\Document\Contribution:
+    type: document
+    repositoryClass: Akeneo\Bundle\PimterestBundle\Repository\ContributionRepository
+    fields:
+        id:
+            id: true
+        source:
+            type: string
+            length: 255
+        appId:
+            type: string
+            length: 255
+            column: app_id
+            nullable: true
+        username:
+            type: string
+            length: 255
+            nullable: true
+        userType:
+            type: string
+            length: 255
+            column: user_type
+        mediaUrl:
+            type: string
+            length: '65536'
+            column: media_url
+            nullable: true
+        active:
+            type: boolean
+        content:
+            type: string
+            length: '1024'
+        latitude:
+            type: float
+            nullable: true
+        longitude:
+            type: float
+            nullable: true

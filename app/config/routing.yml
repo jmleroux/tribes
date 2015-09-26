@@ -6,6 +6,10 @@ akeneo_api:
     resource: @AkeneoApiBundle/Resources/config/routing.yml
     prefix:   /api/
 
+pimterest_routes:
+    resource: @PimterestBundle/Resources/config/routing.yml
+    prefix:   /atw/
+
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 

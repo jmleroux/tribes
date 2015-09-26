@@ -1,0 +1,40 @@
+home_index:
+    path: /
+    defaults: { _controller: PimterestBundle:Home:index }
+
+map_index:
+    path: /map
+    defaults: { _controller: PimterestBundle:Map:index }
+
+gallery_index:
+    path: /gallery
+    defaults: { _controller: PimterestBundle:Gallery:index }
+
+locations_index:
+    path: /rest/locations
+    defaults: { _controller: PimterestBundle:Rest/Locations:list, _format: json }
+    options:
+        expose: true
+
+contributions_index:
+    path: /rest/contributions
+    defaults: { _controller: PimterestBundle:Rest/Contributions:list, _format: json }
+
+admin_index:
+    path: /admin
+    defaults: { _controller: PimterestBundle:Admin:index }
+
+admin_edit:
+    path: /admin/edit/{id}
+    defaults: { _controller: PimterestBundle:Admin:edit, id: null }
+
+admin_delete:
+    path: /admin/delete/{id}
+    defaults: { _controller: PimterestBundle:Admin:delete, id: null }
+
+upload_rest_upload:
+    path: /rest/upload
+    defaults: { _controller: PimterestBundle:Rest/Upload:upload, _format: json }
+    options:
+        expose: true
+
